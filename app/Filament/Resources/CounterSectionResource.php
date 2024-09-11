@@ -17,6 +17,8 @@ class CounterSectionResource extends Resource
 {
     protected static ?string $model = CounterSection::class;
 
+    protected static ?string $navigationLabel = 'Counters Section';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -64,44 +66,11 @@ class CounterSectionResource extends Resource
                     ->collapsed(),
             ]);
     }
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\ImageColumn::make('background_image'),
-                Tables\Columns\TextColumn::make('heading_meta')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('heading')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('status')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCounterSections::route('/'),
+            'index' => Pages\EditCounterSection::route('/'),
         ];
     }
 }

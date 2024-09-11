@@ -18,6 +18,7 @@ class ContactSectionResource extends Resource
     protected static ?string $model = ContactSection::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Contact Section';
 
     public static function form(Form $form): Form
     {
@@ -36,53 +37,15 @@ class ContactSectionResource extends Resource
                     ->tel()
                     ->required(),
                 Forms\Components\Toggle::make('status')
+                    ->inline(false)
                     ->required(),
-            ]);
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('heading_meta')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('heading')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('address')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('status')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageContactSections::route('/'),
+            'index' => Pages\EditContactSection::route('/'),
         ];
     }
 }

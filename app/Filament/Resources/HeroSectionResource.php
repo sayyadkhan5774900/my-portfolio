@@ -19,6 +19,7 @@ class HeroSectionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Hero Section';
     public static function form(Form $form): Form
     {
         return $form
@@ -52,9 +53,11 @@ class HeroSectionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
+                    ->searchable()
+                    ->html(),
                 Tables\Columns\TextColumn::make('subtitle')
-                    ->searchable(),
+                    ->searchable()
+                    ->html(),
                 Tables\Columns\TextColumn::make('button_text')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('button_icon')

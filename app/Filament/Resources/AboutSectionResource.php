@@ -19,6 +19,8 @@ class AboutSectionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'About Section';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -74,50 +76,11 @@ class AboutSectionResource extends Resource
             ]);
     }
 
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('heading_meta')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('heading')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('hire_heading')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('hire_button_text')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('hire_button_link')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('status')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([]);
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageAboutSections::route('/'),
+            'index' => Pages\EditAboutSection::route('/'),
         ];
     }
 
-    public static function canCreate(): bool
-    {
-        return false;
-    }
 }

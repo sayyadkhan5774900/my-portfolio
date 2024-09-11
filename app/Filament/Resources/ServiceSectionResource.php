@@ -19,6 +19,8 @@ class ServiceSectionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Services Section';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -56,38 +58,10 @@ class ServiceSectionResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('heading_meta')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('heading')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('status')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([]);
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageServiceSections::route('/'),
+            'index' => Pages\EditServiceSection::route('/'),
         ];
     }
 
