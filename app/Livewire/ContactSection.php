@@ -3,11 +3,12 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-
+use App\Models\ContactSection as Contact;
 class ContactSection extends Component
 {
     public function render()
     {
-        return view('livewire.contact-section');
+        $contactSection = Contact::first();
+        return view('livewire.contact-section',['contactSection' => $contactSection]);
     }
 }

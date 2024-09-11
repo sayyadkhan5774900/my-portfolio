@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AboutSectionResource\Pages;
-use App\Filament\Resources\AboutSectionResource\RelationManagers;
-use App\Models\AboutSection;
+use App\Filament\Resources\CounterSectionResource\Pages;
+use App\Filament\Resources\CounterSectionResource\RelationManagers;
+use App\Models\CounterSection;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AboutSectionResource extends Resource
+class CounterSectionResource extends Resource
 {
-    protected static ?string $model = AboutSection::class;
+    protected static ?string $model = CounterSection::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -29,65 +29,49 @@ class AboutSectionResource extends Resource
                 Forms\Components\TextInput::make('heading')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Section::make('Description')
-                    ->schema([
-                        Forms\Components\RichEditor::make('description')
-                            ->required(),
-                    ]),
-                Forms\Components\Section::make('Hire Information')
-                    ->schema([
-                        Forms\Components\RichEditor::make('hire_heading')
-                            ->required(),
-                        Forms\Components\Grid::make(2)
-                            ->schema([
-                                Forms\Components\TextInput::make('hire_button_text')
-                                    ->required()
-                                    ->maxLength(255),
-                                Forms\Components\TextInput::make('hire_button_link')
-                                    ->required()
-                                    ->maxLength(255),
-                            ]),
-                    ]),
+                Forms\Components\FileUpload::make('background_image')
+                    ->image()
+                    ->required()
+                    ->columnSpanFull(),
                 Forms\Components\Toggle::make('status')
                     ->label('Active')
                     ->default(true),
-                Forms\Components\Section::make('Services')
+                Forms\Components\Section::make('Counter Information')
                     ->schema([
-                        Forms\Components\Repeater::make('services')
+                        Forms\Components\Repeater::make('counters')
                             ->schema([
-                                Forms\Components\TextInput::make('title')
+                                Forms\Components\TextInput::make('label')
                                     ->required()
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('icon')
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('color_class')
+                                Forms\Components\TextInput::make('data_to')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('data_speed')
+                                    ->required()
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('data_refresh_interval')
+                                    ->required()
+                                    ->numeric(),
                             ])
                             ->collapsible()
                             ->collapsed()
-                            ->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                            ->itemLabel(fn(array $state): ?string => $state['label'] ?? null)
                     ])
                     ->collapsible()
                     ->collapsed(),
             ]);
     }
-
-
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('background_image'),
                 Tables\Columns\TextColumn::make('heading_meta')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('heading')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('hire_heading')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('hire_button_text')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('hire_button_link')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
@@ -105,19 +89,19 @@ class AboutSectionResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
-            ->bulkActions([]);
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageAboutSections::route('/'),
+            'index' => Pages\ManageCounterSections::route('/'),
         ];
-    }
-
-    public static function canCreate(): bool
-    {
-        return false;
     }
 }

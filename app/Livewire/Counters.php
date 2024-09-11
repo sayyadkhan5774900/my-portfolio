@@ -2,12 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Models\CounterSection;
 use Livewire\Component;
 
 class Counters extends Component
 {
     public function render()
     {
-        return view('livewire.counters');
+        $counterSection = CounterSection::first();
+        return view('livewire.counters', ['counterSection' => $counterSection]);
     }
 }
