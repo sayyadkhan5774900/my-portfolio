@@ -9,6 +9,7 @@ class AboutSectionSeeder extends Seeder
 {
     public function run(): void
     {
+
         AboutSection::create([
             'heading_meta' => 'About Us',
             'heading' => 'Who Am I?',
